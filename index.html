@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donghoon Kim | RF/Microwave Researcher</title>
+<meta name="description" content="Donghoon Kim - RF/Microwave researcher at Pusan National University. IBFD, SIC, ISAC, antenna design.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Crect x='3' y='0' width='2' height='1' fill='%23e8a400'/%3E%3Crect x='3' y='1' width='2' height='3' fill='%231f3fbf'/%3E%3Crect x='1' y='4' width='6' height='3' fill='%231f3fbf'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --ink: #1a1a1a;
+    --sub: #5f6368;
+    --line: #e6e6e6;
+    --accent: #1f3fbf;
+    --pixel: 'Press Start 2P', monospace;
+    --sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: var(--sans); font-size: 16px; line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ===== nav ===== */
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(255,255,255,.94); backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav {
+    max-width: 820px; margin: 0 auto; padding: 14px 24px;
+    display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  }
+  .nav .home { font-family: var(--pixel); font-size: 11px; color: var(--ink); }
+  .nav .home:hover { text-decoration: none; color: var(--accent); }
+  .nav ul { list-style: none; display: flex; gap: 22px; font-size: 14px; }
+  .nav ul a { color: var(--sub); }
+  .nav ul a:hover { color: var(--ink); text-decoration: none; }
+
+  main { max-width: 820px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* ===== hero ===== */
+  .hero {
+    display: flex; align-items: center; gap: 36px;
+    padding: 72px 0 56px; border-bottom: 1px solid var(--line);
+  }
+  #sprite { width: 112px; height: 112px; flex: none; }
+  .name { font-family: var(--pixel); font-size: 28px; line-height: 1.4; letter-spacing: 1px; }
+  .name-kr { font-size: 17px; color: var(--sub); margin-top: 6px; }
+  .role { margin-top: 14px; font-size: 16px; }
+  .role span { color: var(--sub); }
+  .quick { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 18px; font-size: 14px; }
+
+  /* ===== sections ===== */
+  section { padding: 56px 0 8px; scroll-margin-top: 64px; }
+  h2 {
+    font-family: var(--pixel); font-size: 14px; letter-spacing: 1px;
+    margin-bottom: 26px; display: flex; align-items: center; gap: 12px;
+  }
+  h2::before { content: ""; width: 10px; height: 10px; background: var(--accent); }
+
+  .about p + p { margin-top: 12px; }
+
+  /* list rows: year | content */
+  .rows { list-style: none; }
+  .rows li { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 10px 0; }
+  .rows .when { color: var(--sub); font-size: 14px; padding-top: 2px; }
+  .rows .what b { font-weight: 600; }
+  .rows .what small { display: block; color: var(--sub); font-size: 14px; }
+
+  /* research */
+  .research { display: grid; gap: 28px; }
+  .research h3 { font-size: 17px; font-weight: 600; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .research p { margin-top: 6px; color: #333; }
+  .research .spec { margin-top: 6px; font-size: 14px; color: var(--sub); }
+  .badge {
+    font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 4px;
+    border: 1px solid var(--line); color: var(--sub);
+  }
+  .badge.rev { color: #b45309; border-color: #fcd9a8; background: #fff8ec; }
+  .badge.prog { color: var(--accent); border-color: #c9d3f5; background: #f3f6ff; }
+  .badge.done { color: #15803d; border-color: #bfe5cc; background: #f1fbf4; }
+
+  /* publications */
+  .pubs { list-style: none; counter-reset: p; }
+  .pubs li { counter-increment: p; position: relative; padding: 0 0 22px 36px; }
+  .pubs li::before {
+    content: "[" counter(p) "]"; position: absolute; left: 0; top: 1px;
+    font-size: 14px; color: var(--sub);
+  }
+  .pubs .t { font-weight: 600; }
+  .pubs .a { font-size: 15px; }
+  .pubs .a b { font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+  .pubs .v { font-size: 14px; color: var(--sub); font-style: italic; }
+  .pubs .v .badge { font-style: normal; margin-left: 6px; }
+  .cat { font-size: 13px; font-weight: 600; color: var(--sub); letter-spacing: .5px; margin: 6px 0 14px; }
+
+  /* skills */
+  .skills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .skills span { font-size: 14px; padding: 6px 14px; border: 1px solid var(--line); border-radius: 6px; }
+
+  footer {
+    max-width: 820px; margin: 0 auto; padding: 32px 24px 48px;
+    border-top: 1px solid var(--line); font-size: 13px; color: var(--sub);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+
+  @media (max-width: 680px) {
+    .nav ul { display: none; }
+    .hero { flex-direction: column; text-align: center; padding-top: 48px; }
+    .quick { justify-content: center; }
+    .name { font-size: 22px; }
+    .rows li { grid-template-columns: 1fr; gap: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="home" href="#">D.KIM</a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#awards">Awards</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <!-- ======================= HERO ======================= -->
+  <div class="hero">
+    <svg id="sprite" viewBox="0 0 24 24" shape-rendering="crispEdges" aria-hidden="true"></svg>
+    <div>
+      <div class="name">DONGHOON KIM</div>
+      <div class="role">M.S. Student, Electrical &amp; Electronic Engineering<br><span>SWARM Lab, Pusan National University</span></div>
+      <div class="quick">
+        <a href="mailto:your-email@example.com">Email</a>
+        <a href="https://github.com/your-github-id" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://scholar.google.com/" target="_blank" rel="noopener">Google Scholar</a>
+        <a href="cv.pdf" target="_blank" rel="noopener">CV</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================= ABOUT ======================= -->
+  <section id="about" class="about">
+    <h2>ABOUT</h2>
+    <p>I am an M.S. student at Pusan National University, advised by Prof. Sangkil Kim. My research focuses on RF/microwave front-ends for in-band full-duplex (IBFD) systems, self-interference cancellation (SIC), integrated sensing and communication (ISAC), and antenna design.</p>
+  </section>
+
+  <!-- ======================= EDUCATION ======================= -->
+  <section id="education">
+    <h2>EDUCATION</h2>
+    <ul class="rows">
+      <li><div class="when">2025 &ndash; 2027.02<br>(expected)</div><div class="what"><b>M.S. in Electrical &amp; Electronic Engineering</b><small>Pusan National University &middot; Advisor: Prof. Sangkil Kim</small><small>Thesis: A Study on Implementation Techniques for an Integrated Backscatter Communication and FMCW Radar (ISABC) System</small></div></li>
+      <li><div class="when">2025</div><div class="what"><b>B.S. in Physics</b><small>Pusan National University &middot; Double major in Electronics Engineering</small></div></li>
+    </ul>
+  </section>
+
+  <!-- ======================= RESEARCH ======================= -->
+  <section id="research">
+    <h2>RESEARCH</h2>
+    <div class="research">
+      <div>
+        <h3>Compact Monostatic IBFD System <span class="badge rev">Under review</span></h3>
+        <p>A 5.8 GHz in-band full-duplex front-end with a single shared antenna. A quantization-error-aware (QEA) isolation analysis sets the SIC target before fabrication.</p>
+        <div class="spec">Isolation &lt; &minus;50 dB over 5.2&ndash;6.1 GHz &middot; EBG-integrated ME dipole &middot; 4-QAM OTA validation</div>
+      </div>
+      <div>
+        <h3>Integrated Sensing and Backscatter Communication (ISABC) <span class="badge prog">In progress</span></h3>
+        <p>A C-band FMCW radar integrated with a backscatter tag link, using subspace-learning demodulation. M.S. thesis topic.</p>
+        <div class="spec">FMCW sweep 5.725&ndash;5.875 GHz (B = 150 MHz)</div>
+      </div>
+      <div>
+        <h3>C-Band ISAC Front-End <span class="badge done">ISPACS 2026</span></h3>
+        <p>A 5.8 GHz CW-based integrated sensing and communication system for low-power indoor IoT, implemented with commercial C-band hardware.</p>
+      </div>
+      <div>
+        <h3>77 GHz Radar Module <span class="badge">Undergraduate research</span></h3>
+        <p>Hands-on work with a 77 GHz radar module, which led to the C-band ISAC implementation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= PUBLICATIONS ======================= -->
+  <section id="publications">
+    <h2>PUBLICATIONS</h2>
+    <div class="cat">JOURNAL</div>
+    <ol class="pubs">
+      <li>
+        <div class="t">A Design of Compact Monostatic In-band Full-duplex System for IoT Applications Based on Quantization-Error-Aware Isolation Analysis</div>
+        <div class="a"><b>D. Kim</b>, et al.</div>
+        <div class="v">IEEE Microwave and Wireless Technology Letters <span class="badge rev">Under review</span></div>
+      </li>
+      <li>
+        <div class="t">[Paper title]</div>
+        <div class="a">[Authors]</div>
+        <div class="v">IEEE Journal of Radio Frequency Identification, 2026</div>
+      </li>
+    </ol>
+    <div class="cat">CONFERENCE</div>
+    <ol class="pubs" start="3" style="counter-reset: p 2">
+      <li>
+        <div class="t">Demonstration of C-Band Integrated Sensing and Communication System for Low-Power In-Door IoT Applications</div>
+        <div class="a"><b>D. Kim</b>, S. Choi, S. Kim</div>
+        <div class="v">ISPACS 2026 (Poster)</div>
+      </li>
+      <li>
+        <div class="t">[Paper title]</div>
+        <div class="a"><b>D. Kim</b>, et al.</div>
+        <div class="v">Korean Institute of Electromagnetic Engineering and Science (KIEES) Winter Conference</div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ======================= AWARDS ======================= -->
+  <section id="awards">
+    <h2>AWARDS</h2>
+    <ul class="rows">
+      <li><div class="when">[Year]</div><div class="what"><b>Best Paper Award (Poster)</b><small>KIEES Winter Conference &middot; Self-interference cancellation research</small></div></li>
+    </ul>
+  </section>
+
+  <!-- ======================= SKILLS ======================= -->
+  <section id="skills">
+    <h2>SKILLS</h2>
+    <div class="skills">
+      <span>HFSS</span><span>Cadence</span><span>Python</span><span>MATLAB</span><span>LaTeX</span>
+    </div>
+  </section>
+
+  <!-- ======================= CONTACT ======================= -->
+  <section id="contact">
+    <h2>CONTACT</h2>
+    <ul class="rows">
+      <li><div class="when">Email</div><div class="what"><a href="mailto:your-email@example.com">your-email@example.com</a></div></li>
+      <li><div class="when">Lab</div><div class="what">SWARM Lab, Dept. of Electrical &amp; Electronic Engineering, Pusan National University</div></li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <span>&copy; <span id="yr"></span> Donghoon Kim</span>
+  <span>Last updated: Nov. 2026</span>
+</footer>
+
+<script>
+// =====================================================================
+// Pixel sprite (static)
+// =====================================================================
+const pal = {
+  K: "#1a1a1a", S: "#ffd2a8", s: "#eaa877", H: "#2b2b3a", W: "#ffffff",
+  B: "#1f3fbf", L: "#5c78e0", P: "#3a3a48", Y: "#e8a400", G: "#9a9aa6"
+};
+const rows = [
+  "...........YY...........",
+  "..........YYYY..........",
+  "...........YY...........",
+  "............G...........",
+  "............G...........",
+  ".........KKKKKKK........",
+  "........KHHHHHHHK.......",
+  ".......KHHHHHHHHHK......",
+  ".......KHSSSSSSSHK......",
+  ".......KSKKSSSKKSK......",
+  ".......KSKWSSSKWSK......",
+  ".......KSSSSSSSSSK......",
+  ".......KsSSSKKSSsK......",
+  "........KSSSSSSSK.......",
+  ".......KKBBBBBBBKK......",
+  "......KBBBLBBBLBBBK.....",
+  "......KSKBBBBBBBKSK.....",
+  "......KSKBBBYBBBKSK.....",
+  ".......KKPPPPPPPKK......",
+  "........KPPPKPPPK.......",
+  "........KPPK.KPPK.......",
+  ".......KKKKK.KKKKK......"
+];
+let svg = "";
+rows.forEach((r, y) => [...r].forEach((c, x) => {
+  if (pal[c]) svg += `<rect x="${x - 0.5}" y="${y + 1}" width="1" height="1" fill="${pal[c]}"/>`;
+}));
+document.getElementById("sprite").innerHTML = svg;
+document.getElementById("yr").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
