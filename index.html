@@ -20,7 +20,6 @@
     --sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
   body {
     background: var(--bg); color: var(--ink);
     font-family: var(--sans); font-size: 16px; line-height: 1.7;
@@ -113,12 +112,46 @@
     display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
   }
 
+
+  /* ===== pages (book) ===== */
+  #book { position: relative; }
+  .page { display: none; background: var(--bg); transform-origin: left center; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .page.active { display: block; }
+  .page > section:first-child { padding-top: 56px; }
+  .page.leaf { display: block; position: fixed; z-index: 4; overflow: hidden; box-shadow: 0 0 40px rgba(0,0,0,.12); }
+  .page.leaf.out::after, .page.turn-in::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(to left, rgba(0,0,0,.18), rgba(0,0,0,0) 60%);
+  }
+  .page.leaf.out { animation: turnOut .75s cubic-bezier(.45,.05,.35,1) forwards; }
+  .page.leaf.out::after { animation: shade .75s ease-in forwards; }
+  .page.turn-in { position: relative; z-index: 6; animation: turnIn .75s cubic-bezier(.45,.05,.35,1) forwards; }
+  .page.turn-in::after { animation: shade .75s ease-out reverse forwards; }
+  @keyframes turnOut { from { transform: perspective(2200px) rotateY(0deg); } to { transform: perspective(2200px) rotateY(-110deg); } }
+  @keyframes turnIn  { from { transform: perspective(2200px) rotateY(-110deg); } to { transform: perspective(2200px) rotateY(0deg); } }
+  @keyframes shade { from { opacity: 0; } to { opacity: 1; } }
+  .nav ul a.on { color: var(--ink); font-weight: 600; }
+
+  /* home summary */
+  .summary { padding-top: 40px; }
+  .summary p { color: #333; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .chips span { font-size: 14px; padding: 4px 12px; border: 1px solid #c9d3f5; background: #f3f6ff; color: var(--accent); border-radius: 999px; }
+  .hl { list-style: none; margin-top: 8px; }
+  .hl li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .hl li span { color: var(--sub); font-size: 14px; }
+  .hl a { white-space: nowrap; font-size: 14px; }
+
   @media (max-width: 680px) {
-    .nav { flex-direction: column; gap: 6px; padding: 10px 16px; } .nav ul { gap: 16px; font-size: 13px; } section { scroll-margin-top: 100px; }
+    .nav { flex-direction: column; gap: 6px; padding: 10px 16px; } .nav ul { gap: 16px; font-size: 13px; }
     .hero { flex-direction: column; text-align: center; padding-top: 48px; }
     .quick { justify-content: center; }
     .name { font-size: 34px; }
     .rows li { grid-template-columns: 1fr; gap: 0; }
+    .hl li { flex-direction: column; gap: 2px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .page.leaf.out, .page.turn-in, .page.leaf::after, .page.turn-in::after { animation-duration: 1ms; }
   }
 </style>
 </head>
@@ -126,8 +159,8 @@
 
 <header>
   <div class="nav">
-        <a class="home" href="#" aria-label="Dean Kim"><svg viewBox="0 95 512 110" height="30" style="display:block" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><text x="0" y="200" font-size="120" font-family="'Times New Roman', Times, serif" fill="#1f3fbf">Dean K&#305;m</text><path d="M398.0 108.4 A15 15 0 0 1 398.0 127.6" fill="none" stroke="#d62828" stroke-width="3.2" stroke-linecap="round" opacity="1"/><path d="M406.4 101.3 A26 26 0 0 1 406.4 134.7" fill="none" stroke="#d62828" stroke-width="3.2" stroke-linecap="round" opacity="0.55"/><circle cx="386.5" cy="118" r="7" fill="#d62828"/></svg></a>
-    <ul>
+    <a class="home" href="#home" aria-label="Dean Kim"><svg viewBox="0 95 512 110" height="30" style="display:block" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><text x="0" y="200" font-size="120" font-family="'Times New Roman', Times, serif" fill="#1f3fbf">Dean K&#305;m</text><path d="M398.0 108.4 A15 15 0 0 1 398.0 127.6" fill="none" stroke="#d62828" stroke-width="3.2" stroke-linecap="round" opacity="1"/><path d="M406.4 101.3 A26 26 0 0 1 406.4 134.7" fill="none" stroke="#d62828" stroke-width="3.2" stroke-linecap="round" opacity="0.55"/><circle cx="386.5" cy="118" r="7" fill="#d62828"/></svg></a>
+    <ul id="menu">
       <li><a href="#about">About</a></li>
       <li><a href="#research">Research</a></li>
       <li><a href="#publications">Publications</a></li>
@@ -137,8 +170,9 @@
   </div>
 </header>
 
-<main>
-  <!-- ======================= HERO ======================= -->
+<main id="book">
+  <!-- ======================= PAGE: HOME (summary) ======================= -->
+  <article class="page" data-page="home">
   <div class="hero">
     <img id="sprite" src="Profile.jpg" alt="Dean Kim" style="border-radius: 50%; object-fit: cover;">
     <div>
@@ -153,23 +187,45 @@
     </div>
   </div>
 
-  <!-- ======================= ABOUT ======================= -->
-  <section id="about" class="about">
+  <section class="summary">
+    <p>RF/microwave researcher working on in-band full-duplex (IBFD) front-ends, self-interference cancellation (SIC), integrated sensing and communication (ISAC), and antenna design.</p>
+    <div class="chips"><span>IBFD</span><span>SIC</span><span>ISAC</span><span>Antenna Design</span></div>
+  </section>
+  <section>
+    <h2>HIGHLIGHTS</h2>
+    <ul class="hl">
+      <li><div>IEEE MWTL paper (first author) <span>&middot; Under review</span></div><a href="#publications">Publications &rarr;</a></li>
+      <li><div>C-Band ISAC demonstration <span>&middot; ISPACS 2026 (Poster)</span></div><a href="#publications">Publications &rarr;</a></li>
+      <li><div>Best Paper Award (Poster) <span>&middot; KIEES Winter Conference</span></div><a href="#awards">Awards &rarr;</a></li>
+      <li><div>M.S. thesis on ISABC <span>&middot; Expected Feb. 2027</span></div><a href="#research">Research &rarr;</a></li>
+    </ul>
+  </section>
+  </article>
+
+  <!-- ======================= PAGE: ABOUT ======================= -->
+  <article class="page" data-page="about">
+  <section class="about">
     <h2>ABOUT</h2>
     <p>I am an M.S. student at Pusan National University, advised by Prof. Sangkil Kim. My research focuses on RF/microwave front-ends for in-band full-duplex (IBFD) systems, self-interference cancellation (SIC), integrated sensing and communication (ISAC), and antenna design.</p>
   </section>
-
-  <!-- ======================= EDUCATION ======================= -->
-  <section id="education">
+  <section>
     <h2>EDUCATION</h2>
     <ul class="rows">
       <li><div class="when">2025 &ndash; 2027.02<br>(expected)</div><div class="what"><b>M.S. in Electrical &amp; Electronic Engineering</b><small>Pusan National University &middot; Advisor: Prof. Sangkil Kim</small><small>Thesis: A Study on Implementation Techniques for an Integrated Backscatter Communication and FMCW Radar (ISABC) System</small></div></li>
       <li><div class="when">2025</div><div class="what"><b>B.S. in Physics</b><small>Pusan National University &middot; Double major in Electronics Engineering</small></div></li>
     </ul>
   </section>
+  <section>
+    <h2>SKILLS</h2>
+    <div class="skills">
+      <span>HFSS</span><span>Cadence</span><span>Python</span><span>MATLAB</span><span>LaTeX</span>
+    </div>
+  </section>
+  </article>
 
-  <!-- ======================= RESEARCH ======================= -->
-  <section id="research">
+  <!-- ======================= PAGE: RESEARCH ======================= -->
+  <article class="page" data-page="research">
+  <section>
     <h2>RESEARCH</h2>
     <div class="research">
       <div>
@@ -192,9 +248,11 @@
       </div>
     </div>
   </section>
+  </article>
 
-  <!-- ======================= PUBLICATIONS ======================= -->
-  <section id="publications">
+  <!-- ======================= PAGE: PUBLICATIONS ======================= -->
+  <article class="page" data-page="publications">
+  <section>
     <h2>PUBLICATIONS</h2>
     <div class="cat">JOURNAL</div>
     <ol class="pubs">
@@ -223,31 +281,28 @@
       </li>
     </ol>
   </section>
+  </article>
 
-  <!-- ======================= AWARDS ======================= -->
-  <section id="awards">
+  <!-- ======================= PAGE: AWARDS ======================= -->
+  <article class="page" data-page="awards">
+  <section>
     <h2>AWARDS</h2>
     <ul class="rows">
       <li><div class="when">[Year]</div><div class="what"><b>Best Paper Award (Poster)</b><small>KIEES Winter Conference &middot; Self-interference cancellation research</small></div></li>
     </ul>
   </section>
+  </article>
 
-  <!-- ======================= SKILLS ======================= -->
-  <section id="skills">
-    <h2>SKILLS</h2>
-    <div class="skills">
-      <span>HFSS</span><span>Cadence</span><span>Python</span><span>MATLAB</span><span>LaTeX</span>
-    </div>
-  </section>
-
-  <!-- ======================= CONTACT ======================= -->
-  <section id="contact">
+  <!-- ======================= PAGE: CONTACT ======================= -->
+  <article class="page" data-page="contact">
+  <section>
     <h2>CONTACT</h2>
     <ul class="rows">
       <li><div class="when">Email</div><div class="what"><a href="mailto:your-email@example.com">your-email@example.com</a></div></li>
       <li><div class="when">Lab</div><div class="what">SWARM Lab, Dept. of Electrical &amp; Electronic Engineering, Pusan National University</div></li>
     </ul>
   </section>
+  </article>
 </main>
 
 <footer>
@@ -257,41 +312,66 @@
 
 <script>
 // =====================================================================
-// Pixel sprite (static)
+// Page router with book-style page turn
 // =====================================================================
-const pal = {
-  K: "#1a1a1a", S: "#ffd2a8", s: "#eaa877", H: "#2b2b3a", W: "#ffffff",
-  B: "#1f3fbf", L: "#5c78e0", P: "#3a3a48", Y: "#e8a400", G: "#9a9aa6"
-};
-const rows = [
-  "...........YY...........",
-  "..........YYYY..........",
-  "...........YY...........",
-  "............G...........",
-  "............G...........",
-  ".........KKKKKKK........",
-  "........KHHHHHHHK.......",
-  ".......KHHHHHHHHHK......",
-  ".......KHSSSSSSSHK......",
-  ".......KSKKSSSKKSK......",
-  ".......KSKWSSSKWSK......",
-  ".......KSSSSSSSSSK......",
-  ".......KsSSSKKSSsK......",
-  "........KSSSSSSSK.......",
-  ".......KKBBBBBBBKK......",
-  "......KBBBLBBBLBBBK.....",
-  "......KSKBBBBBBBKSK.....",
-  "......KSKBBBYBBBKSK.....",
-  ".......KKPPPPPPPKK......",
-  "........KPPPKPPPK.......",
-  "........KPPK.KPPK.......",
-  ".......KKKKK.KKKKK......"
-];
-let svg = "";
-rows.forEach((r, y) => [...r].forEach((c, x) => {
-  if (pal[c]) svg += `<rect x="${x - 0.5}" y="${y + 1}" width="1" height="1" fill="${pal[c]}"/>`;
-}));
-document.getElementById("sprite").innerHTML = svg;
+const ORDER = ["home", "about", "research", "publications", "awards", "contact"];
+const pages = {};
+document.querySelectorAll(".page").forEach(p => pages[p.dataset.page] = p);
+const menuLinks = [...document.querySelectorAll("#menu a")];
+let current = null, busy = null;
+
+function target() {
+  const h = location.hash.replace("#", "");
+  return ORDER.includes(h) ? h : "home";
+}
+
+function markMenu(name) {
+  menuLinks.forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + name));
+}
+
+function finish() {
+  if (busy) { busy(); busy = null; }
+}
+
+function show(name, animate) {
+  finish();
+  const next = pages[name], prev = current ? pages[current] : null;
+  markMenu(name);
+  if (!prev || prev === next || !animate) {
+    Object.values(pages).forEach(p => p.classList.toggle("active", p === next));
+    current = name;
+    window.scrollTo({ top: 0, behavior: "instant" });
+    return;
+  }
+  const forward = ORDER.indexOf(name) > ORDER.indexOf(current);
+  const r = prev.getBoundingClientRect();
+
+  // freeze the old page in place as a loose leaf
+  Object.assign(prev.style, {
+    left: r.left + "px", top: r.top + "px", width: r.width + "px",
+    height: Math.max(r.height, innerHeight - r.top) + "px"
+  });
+  prev.classList.add("leaf");
+  prev.classList.remove("active");
+  next.classList.add("active");
+  window.scrollTo({ top: 0, behavior: "instant" });
+
+  const animEl = forward ? prev : next;
+  if (forward) prev.classList.add("out"); else next.classList.add("turn-in");
+
+  busy = () => {
+    prev.classList.remove("leaf", "out");
+    next.classList.remove("turn-in");
+    prev.removeAttribute("style");
+    animEl.removeEventListener("animationend", onEnd);
+  };
+  function onEnd(e) { if (e.target === animEl) finish(); }
+  animEl.addEventListener("animationend", onEnd);
+  current = name;
+}
+
+window.addEventListener("hashchange", () => show(target(), true));
+show(target(), false);
 document.getElementById("yr").textContent = new Date().getFullYear();
 </script>
 </body>
