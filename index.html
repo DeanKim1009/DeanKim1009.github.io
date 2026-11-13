@@ -303,11 +303,6 @@
   </article>
 </main>
 
-<footer>
-  <span>&copy; <span id="yr"></span> Donghoon Kim</span>
-  <span>Last updated: Nov. 2026</span>
-</footer>
-
 <script>
 // =====================================================================
 // Page router with left/right slide
@@ -371,7 +366,6 @@ function show(name, animate) {
 
 window.addEventListener("hashchange", () => show(target(), true));
 show(target(), false);
-document.getElementById("yr").textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
