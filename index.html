@@ -8,7 +8,6 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231f3fbf'/%3E%3Ctext x='32' y='43' font-family='Times New Roman,Times,serif' font-size='32' fill='white' text-anchor='middle'%3EDK%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
 <style>
   :root {
@@ -17,7 +16,7 @@
     --sub: #5f6368;
     --line: #e6e6e6;
     --accent: #1f3fbf;
-    --pixel: 'Press Start 2P', monospace;
+    --pixel: 'Times New Roman', Times, serif;
     --sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -54,7 +53,7 @@
     padding: 72px 0 56px; border-bottom: 1px solid var(--line);
   }
   #sprite { width: 160px; height: 160px; flex: none; }
-  .name { font-family: var(--pixel); font-size: 28px; line-height: 1.4; letter-spacing: 1px; }
+  .name { font-family: var(--pixel); font-size: 44px; line-height: 1.2; letter-spacing: 0; }
   .name-kr { font-size: 17px; color: var(--sub); margin-top: 6px; }
   .role { margin-top: 14px; font-size: 16px; }
   .role span { color: var(--sub); }
@@ -63,7 +62,7 @@
   /* ===== sections ===== */
   section { padding: 56px 0 8px; scroll-margin-top: 64px; }
   h2 {
-    font-family: var(--pixel); font-size: 14px; letter-spacing: 1px;
+    font-family: var(--pixel); font-size: 24px; letter-spacing: 0.5px;
     margin-bottom: 26px; display: flex; align-items: center; gap: 12px;
   }
   h2::before { content: ""; width: 10px; height: 10px; background: var(--accent); }
@@ -118,7 +117,7 @@
     .nav ul { display: none; }
     .hero { flex-direction: column; text-align: center; padding-top: 48px; }
     .quick { justify-content: center; }
-    .name { font-size: 22px; }
+    .name { font-size: 34px; }
     .rows li { grid-template-columns: 1fr; gap: 0; }
   }
 </style>
