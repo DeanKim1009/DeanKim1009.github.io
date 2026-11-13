@@ -113,23 +113,21 @@
   }
 
 
-  /* ===== pages (book) ===== */
+  /* ===== pages (slide) ===== */
   #book { position: relative; }
-  .page { display: none; background: var(--bg); transform-origin: left center; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  html, body { overflow-x: clip; }
+  .page { display: none; background: var(--bg); }
   .page.active { display: block; }
   .page > section:first-child { padding-top: 56px; }
-  .page.leaf { display: block; position: fixed; z-index: 4; overflow: hidden; box-shadow: 0 0 40px rgba(0,0,0,.12); }
-  .page.leaf.out::after, .page.turn-in::after {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background: linear-gradient(to left, rgba(0,0,0,.18), rgba(0,0,0,0) 60%);
-  }
-  .page.leaf.out { animation: turnOut .75s cubic-bezier(.45,.05,.35,1) forwards; }
-  .page.leaf.out::after { animation: shade .75s ease-in forwards; }
-  .page.turn-in { position: relative; z-index: 6; animation: turnIn .75s cubic-bezier(.45,.05,.35,1) forwards; }
-  .page.turn-in::after { animation: shade .75s ease-out reverse forwards; }
-  @keyframes turnOut { from { transform: perspective(2200px) rotateY(0deg); } to { transform: perspective(2200px) rotateY(-110deg); } }
-  @keyframes turnIn  { from { transform: perspective(2200px) rotateY(-110deg); } to { transform: perspective(2200px) rotateY(0deg); } }
-  @keyframes shade { from { opacity: 0; } to { opacity: 1; } }
+  .page.leaf { display: block; position: fixed; z-index: 4; overflow: hidden; }
+  .page.out-left  { animation: outLeft  .45s cubic-bezier(.4,0,.2,1) forwards; }
+  .page.out-right { animation: outRight .45s cubic-bezier(.4,0,.2,1) forwards; }
+  .page.in-right  { animation: inRight  .45s cubic-bezier(.4,0,.2,1) forwards; }
+  .page.in-left   { animation: inLeft   .45s cubic-bezier(.4,0,.2,1) forwards; }
+  @keyframes outLeft  { to   { transform: translateX(-100%); opacity: 0; } }
+  @keyframes outRight { to   { transform: translateX(100%);  opacity: 0; } }
+  @keyframes inRight  { from { transform: translateX(100%);  opacity: 0; } }
+  @keyframes inLeft   { from { transform: translateX(-100%); opacity: 0; } }
   .nav ul a.on { color: var(--ink); font-weight: 600; }
 
   /* home summary */
@@ -151,7 +149,7 @@
     .hl li { flex-direction: column; gap: 2px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .page.leaf.out, .page.turn-in, .page.leaf::after, .page.turn-in::after { animation-duration: 1ms; }
+    .page.out-left, .page.out-right, .page.in-right, .page.in-left { animation-duration: 1ms; }
   }
 </style>
 </head>
@@ -312,7 +310,7 @@
 
 <script>
 // =====================================================================
-// Page router with book-style page turn
+// Page router with left/right slide
 // =====================================================================
 const ORDER = ["home", "about", "research", "publications", "awards", "contact"];
 const pages = {};
@@ -346,7 +344,7 @@ function show(name, animate) {
   const forward = ORDER.indexOf(name) > ORDER.indexOf(current);
   const r = prev.getBoundingClientRect();
 
-  // freeze the old page in place as a loose leaf
+  // freeze the old page in place while it slides away
   Object.assign(prev.style, {
     left: r.left + "px", top: r.top + "px", width: r.width + "px",
     height: Math.max(r.height, innerHeight - r.top) + "px"
@@ -356,12 +354,13 @@ function show(name, animate) {
   next.classList.add("active");
   window.scrollTo({ top: 0, behavior: "instant" });
 
-  const animEl = forward ? prev : next;
-  if (forward) prev.classList.add("out"); else next.classList.add("turn-in");
+  prev.classList.add(forward ? "out-left" : "out-right");
+  next.classList.add(forward ? "in-right" : "in-left");
+  const animEl = next;
 
   busy = () => {
-    prev.classList.remove("leaf", "out");
-    next.classList.remove("turn-in");
+    prev.classList.remove("leaf", "out-left", "out-right");
+    next.classList.remove("in-right", "in-left");
     prev.removeAttribute("style");
     animEl.removeEventListener("animationend", onEnd);
   };
