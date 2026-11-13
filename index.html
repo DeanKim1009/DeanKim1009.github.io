@@ -163,7 +163,6 @@
       <li><a href="#research">Research</a></li>
       <li><a href="#publications">Publications</a></li>
       <li><a href="#awards">Awards</a></li>
-      <li><a href="#contact">Contact</a></li>
     </ul>
   </div>
 </header>
@@ -178,7 +177,7 @@
       <div class="role">M.S. Student, Electrical &amp; Electronic Engineering<br><span>SWARM Lab, Pusan National University</span></div>
       <div class="quick">
         <a href="mailto:deank1009@gmail.com">Email</a>
-        <a href="https://github.com/DeanKim1009" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.instagram.com/YOUR_ID/" target="_blank" rel="noopener">Instagram</a>
         <!--<a href="https://scholar.google.com/" target="_blank" rel="noopener">Google Scholar</a>-->
         <!--<a href="cv.pdf" target="_blank" rel="noopener">CV</a>-->
       </div>
@@ -196,6 +195,13 @@
       <li><div>C-Band ISAC demonstration <span>&middot; ISPACS 2026 (Poster)</span></div><a href="#publications">Publications &rarr;</a></li>
       <li><div>Best Paper Award (Poster) <span>&middot; KIEES Winter Conference</span></div><a href="#awards">Awards &rarr;</a></li>
       <li><div>M.S. thesis on ISABC <span>&middot; Expected Feb. 2027</span></div><a href="#research">Research &rarr;</a></li>
+    </ul>
+  </section>
+  <section>
+    <h2>CONTACT</h2>
+    <ul class="rows">
+      <li><div class="when">Email</div><div class="what"><a href="mailto:deank1009@gmail.com">deank1009@gmail.com</a></div></li>
+      <li><div class="when">Lab</div><div class="what">SWARM Lab, Dept. of Electrical &amp; Electronic Engineering, Pusan National University</div></li>
     </ul>
   </section>
   </article>
@@ -290,24 +296,13 @@
     </ul>
   </section>
   </article>
-
-  <!-- ======================= PAGE: CONTACT ======================= -->
-  <article class="page" data-page="contact">
-  <section>
-    <h2>CONTACT</h2>
-    <ul class="rows">
-      <li><div class="when">Email</div><div class="what"><a href="mailto:deank1009@gmail.com">deank1009@gmail.com</a></div></li>
-      <li><div class="when">Lab</div><div class="what">SWARM Lab, Dept. of Electrical &amp; Electronic Engineering, Pusan National University</div></li>
-    </ul>
-  </section>
-  </article>
 </main>
 
 <script>
 // =====================================================================
 // Page router with left/right slide
 // =====================================================================
-const ORDER = ["home", "about", "research", "publications", "awards", "contact"];
+const ORDER = ["home", "about", "research", "publications", "awards"];
 const pages = {};
 document.querySelectorAll(".page").forEach(p => pages[p.dataset.page] = p);
 const menuLinks = [...document.querySelectorAll("#menu a")];
